@@ -13,6 +13,13 @@ export default async function Dashboard() {
       <Link href="/dashboard/products" className="text-blue-500 underline">
         Manage Products
       </Link>
+      <a
+  href="/dashboard/products/new"
+  className="inline-block mb-4 bg-black text-white px-4 py-2 rounded"
+>
+  + Add Product
+</a>
+
     </div>
   );
 }
