@@ -25,3 +25,9 @@ export async function POST(req: Request) {
   const product = await Product.create(parsed.data);
   return NextResponse.json(product);
 }
+
+export async function GET() {
+  await connectDB();
+  const products = await Product.find().sort({createdAt: -1});
+  return NextResponse.json(products);
+}
