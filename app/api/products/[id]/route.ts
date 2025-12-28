@@ -6,25 +6,26 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { connectDB } from "@/lib/db/connect";
 import Product from "@/models/Product";
 
-export async function GET(_: Request, { params }: any) {
-  const conn = await connectDB();
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
-  const dbName = conn.connection.name;
-  const collections = Object.keys(conn.connection.collections);
+  const session = await getServerSession(authOptions);
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const product = await conn.connection
-    .collection("products")
-    .findOne({ _id: new (require("mongoose").Types.ObjectId)(params.id) });
+  await connectDB();
 
-  return NextResponse.json({
-    dbName,
-    collections,
-    rawQueryResult: product,
-  });
+  const product = await Product.findById(id);
+
+  if (!product)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  return NextResponse.json(product);
 }
 
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
-export async function PUT(req: Request, { params }: any) {
   const session = await getServerSession(authOptions);
   if (!session)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -33,7 +34,7 @@ export async function PUT(req: Request, { params }: any) {
 
   await connectDB();
 
-  const updated = await Product.findByIdAndUpdate(params.id, body, { new: true });
+  const updated = await Product.findByIdAndUpdate(id, body, { new: true });
 
   return NextResponse.json(updated);
 }

@@ -29,17 +29,19 @@ export default function EditProductPage() {
     }, [id]);
 
     async function handleSubmit(e: any) {
-        e.preventDefault();
+  e.preventDefault();
 
-        await fetch(`/api/products/${id}`, {
-            method: "PUT",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
-        });
+  await fetch(`/api/products/${id}`, {
+    method: "PUT",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(form),
+  });
 
-        router.push("/dashboard/products");
-    }
+  router.replace("/dashboard/products");
+  router.refresh();
+}
+
 
     if (loading) return <div className="p-8">Loading...</div>;
     if (!form) return <div className="p-8">Product not found</div>;

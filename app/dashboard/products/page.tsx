@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -27,18 +29,18 @@ export default async function ProductsPage() {
                     </tr>
                 </thead>
                 <tbody>
-  {products.map((p: any) => (
-    <tr key={p._id}>
-      <td className="border p-2">{p.name}</td>
-      <td className="border p-2">{p.price}</td>
-      <td className="border p-2">{p.stock}</td>
-      <td className="border p-2">{p.category}</td>
-      <td className="border p-2">
-        <ActionButtons id={p._id} />
-      </td>
-    </tr>
-  ))}
-</tbody>
+                    {products.map((p: any) => (
+                        <tr key={p._id}>
+                            <td className="border p-2">{p.name}</td>
+                            <td className="border p-2">{p.price}</td>
+                            <td className="border p-2">{p.stock}</td>
+                            <td className="border p-2">{p.category}</td>
+                            <td className="border p-2">
+                                <ActionButtons id={p._id} />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
 
             </table>
         </div>
