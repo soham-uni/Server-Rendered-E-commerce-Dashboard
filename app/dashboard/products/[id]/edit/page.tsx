@@ -55,66 +55,76 @@ export default function EditProductPage() {
     if (!form) return <div className="p-8">Product not found</div>;
 
     return (
-        <div className="p-8 max-w-lg">
-            <h1 className="text-xl font-bold mb-4">Edit Product</h1>
+  <div className="min-h-screen bg-zinc-950 text-zinc-100 p-10">
+    <div className="max-w-xl mx-auto space-y-6">
+      <h1 className="text-2xl font-semibold">Edit Product</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-
-                <div>
-                    <input
-                        className="border p-2 w-full"
-                        value={form.name || ""}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    />
-                    {errors.name && <p className="text-red-500 text-sm">{errors.name[0]}</p>}
-                </div>
-
-                <div>
-                    <input
-                        className="border p-2 w-full"
-                        type="number"
-                        value={form.price || 0}
-                        onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-                    />
-                    {errors.price && <p className="text-red-500 text-sm">{errors.price[0]}</p>}
-                </div>
-
-                <div>
-                    <input
-                        className="border p-2 w-full"
-                        type="number"
-                        value={form.stock || 0}
-                        onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })}
-                    />
-                    {errors.stock && <p className="text-red-500 text-sm">{errors.stock[0]}</p>}
-                </div>
-
-                <div>
-                    <select
-                        className="border p-2 w-full"
-                        value={form.category || ""}
-                        onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    >
-                        <option value="">Select Category</option>
-                        {["Electronics", "Stationery", "Furniture", "Clothing", "Home", "Other"].map(
-                            (c) => (
-                                <option key={c} value={c}>
-                                    {c}
-                                </option>
-                            )
-                        )}
-                    </select>
-
-                    {errors.category && (
-                        <p className="text-red-500 text-sm">{errors.category[0]}</p>
-                    )}
-                </div>
-
-
-                <button className="bg-black text-white px-4 py-2 rounded">
-                    Save Changes
-                </button>
-            </form>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 bg-zinc-900 border border-zinc-800 rounded-xl p-6"
+      >
+        <div>
+          <input
+            className="w-full bg-zinc-950 border border-zinc-700 rounded px-3 py-2"
+            value={form.name || ""}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+          {errors.name && (
+            <p className="text-red-400 text-sm mt-1">{errors.name[0]}</p>
+          )}
         </div>
-    );
+
+        <div>
+          <input
+            className="w-full bg-zinc-950 border border-zinc-700 rounded px-3 py-2"
+            type="number"
+            value={form.price || 0}
+            onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+          />
+          {errors.price && (
+            <p className="text-red-400 text-sm mt-1">{errors.price[0]}</p>
+          )}
+        </div>
+
+        <div>
+          <input
+            className="w-full bg-zinc-950 border border-zinc-700 rounded px-3 py-2"
+            type="number"
+            value={form.stock || 0}
+            onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })}
+          />
+          {errors.stock && (
+            <p className="text-red-400 text-sm mt-1">{errors.stock[0]}</p>
+          )}
+        </div>
+
+        <div>
+          <select
+            className="w-full bg-zinc-950 border border-zinc-700 rounded px-3 py-2"
+            value={form.category || ""}
+            onChange={(e) => setForm({ ...form, category: e.target.value })}
+          >
+            <option value="">Select Category</option>
+            {["Electronics", "Stationery", "Furniture", "Clothing", "Home", "Other"].map(
+              (c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              )
+            )}
+          </select>
+
+          {errors.category && (
+            <p className="text-red-400 text-sm mt-1">{errors.category[0]}</p>
+          )}
+        </div>
+
+        <button className="w-full bg-white text-black py-2 rounded font-medium hover:bg-gray-200 transition">
+          Save Changes
+        </button>
+      </form>
+    </div>
+  </div>
+);
+
 }
