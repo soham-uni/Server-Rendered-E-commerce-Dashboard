@@ -5,6 +5,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { connectDB } from "@/lib/db/connect";
 import Product from "@/models/Product";
+import { ProductSchema } from "@/lib/validators/product";
+import { formatZodErrors } from "@/lib/utils/zodErrorMapper";
+
 
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -32,9 +35,20 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 
   const body = await req.json();
 
+  // Validate edited data
+  const parsed = ProductSchema.safeParse(body);
+  if (!parsed.success) {
+    const friendlyErrors = formatZodErrors(parsed.error.flatten().fieldErrors);
+
+    return NextResponse.json(
+      { error: { fieldErrors: friendlyErrors } },
+      { status: 400 }
+    );
+  }
+
   await connectDB();
 
-  const updated = await Product.findByIdAndUpdate(id, body, { new: true });
+  const updated = await Product.findByIdAndUpdate(id, parsed.data, { new: true });
 
   return NextResponse.json(updated);
 }

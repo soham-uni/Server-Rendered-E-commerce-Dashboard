@@ -1,11 +1,5 @@
-import { connectDB } from "@/lib/db/connect";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
-  await connectDB();
-
-  return (
-    <main className="p-10 text-xl font-bold">
-      Database Connected
-    </main>
-  );
+export default function Home() {
+  redirect("/dashboard");
 }

@@ -4,7 +4,8 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-import ActionButtons from "./ActionButtons";
+import ActionButtons from "@/components/ActionButtons";
+
 
 
 export default async function ProductsPage() {
@@ -21,6 +22,7 @@ export default async function ProductsPage() {
             <table className="border w-full">
                 <thead>
                     <tr className="border">
+                        <th className="border p-2">Image</th>
                         <th className="border p-2">Name</th>
                         <th className="border p-2">Price</th>
                         <th className="border p-2">Stock</th>
@@ -31,6 +33,11 @@ export default async function ProductsPage() {
                 <tbody>
                     {products.map((p: any) => (
                         <tr key={p._id}>
+                            <td className="border p-2">
+                                {p.images?.[0] && (
+                                    <img src={p.images[0]} className="w-16 h-16 object-cover rounded" />
+                                )}
+                            </td>
                             <td className="border p-2">{p.name}</td>
                             <td className="border p-2">{p.price}</td>
                             <td className="border p-2">{p.stock}</td>

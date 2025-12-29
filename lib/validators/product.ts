@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { CATEGORIES } from "@/lib/constants/categories";
 
-export const productSchema = z.object({
+export const ProductSchema = z.object({
   name: z.string().min(2),
-  description: z.string().optional(),
-  price: z.number().positive(),
-  stock: z.number().int().nonnegative(),
-  category: z.string().optional(),
-  images: z.array(z.string()).optional(),
+  price: z.number().min(0),
+  stock: z.number().min(0),
+  category: z.enum(CATEGORIES as [string, ...string[]]),
+  images: z.array(z.string().url()).optional(),
 });
