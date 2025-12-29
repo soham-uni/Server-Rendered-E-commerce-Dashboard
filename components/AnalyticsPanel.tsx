@@ -80,7 +80,7 @@ export default function AnalyticsPanel({ data }: any) {
 
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={pieData}>
-            <XAxis dataKey="name" stroke="#94a3b8" />
+            <XAxis dataKey="name" stroke="#b894b5ff" />
             <YAxis stroke="#94a3b8" />
 
             <SafeTooltip

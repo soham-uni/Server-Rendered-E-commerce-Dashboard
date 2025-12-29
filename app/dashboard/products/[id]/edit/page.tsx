@@ -99,15 +99,19 @@ export default function EditProductPage() {
 
           {/* Price */}
           <div>
-            <input
-              className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2"
-              type="number"
-              value={form.price || 0}
-              onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-              placeholder="Price"
-            />
-            {errors.price && <p className="text-red-400 text-sm mt-1">{errors.price[0]}</p>}
-          </div>
+  <input
+    className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2"
+    type="number"
+    value={form.price === 0 ? "" : form.price}
+    onChange={(e) => {
+      const val = e.target.value;
+      setForm({ ...form, price: val === "" ? "" : Number(val) });
+    }}
+    placeholder="Price"
+  />
+  {errors.price && <p className="text-red-400 text-sm mt-1">{errors.price[0]}</p>}
+</div>
+
 
           {/* Stock */}
           <div>
