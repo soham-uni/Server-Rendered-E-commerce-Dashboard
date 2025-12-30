@@ -25,7 +25,7 @@ export default function DashboardCharts({ data }: any) {
   }));
 
   return (
-    <div className="h-80">
+    <div className="w-full min-h-[260px] sm:min-h-[320px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData}>
           <defs>
@@ -38,11 +38,14 @@ export default function DashboardCharts({ data }: any) {
           <XAxis
             dataKey="name"
             stroke="#94a3b8"
+            tick={{ fill: "#cbd5e1", fontSize: 12 }}
             tickLine={false}
             axisLine={{ stroke: "#334155" }}
           />
+
           <YAxis
             stroke="#94a3b8"
+            tick={{ fill: "#cbd5e1", fontSize: 12 }}
             tickLine={false}
             axisLine={{ stroke: "#334155" }}
           />

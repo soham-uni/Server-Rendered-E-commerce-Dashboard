@@ -1,37 +1,43 @@
 "use client";
 
 import {
-  LineChart, Line, XAxis, YAxis,
+  LineChart, Line, XAxis, YAxis, Tooltip,
   PieChart, Pie, Cell,
-  BarChart, Bar, ResponsiveContainer,
-  Tooltip, TooltipProps
+  BarChart, Bar, ResponsiveContainer
 } from "recharts";
 
 const COLORS = ["#34d399", "#60a5fa", "#f472b6", "#facc15", "#a78bfa"];
 
-/* ---------- Typed Tooltip Wrapper (fixes TS 'unknown' error) ---------- */
-function SafeTooltip(props: TooltipProps<any, any>) {
-  return <Tooltip {...props} />;
+/* ---------- Custom Tooltip ---------- */
+function ChartTooltip({ active, payload, label }: any) {
+  if (!active || !payload || !payload.length) return null;
+
+  return (
+    <div className="bg-[#020617] border border-emerald-400/50 rounded-lg px-3 py-2 shadow-lg text-sm">
+      <p className="text-emerald-300 font-medium">{label}</p>
+      <p className="text-slate-200">
+        {payload[0].value}
+      </p>
+    </div>
+  );
 }
 
 export default function AnalyticsPanel({ data }: any) {
 
-  const pieData = Object.entries(data.byCategory || {}).map(([name, value]) => ({
-    name,
-    value: Number(value),
-  }));
+  const pieData = Object.entries(data.byCategory || {}).map(
+    ([name, value]) => ({ name, value: Number(value) })
+  );
 
   return (
-    <div className="grid grid-cols-2 gap-8 mt-10">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
 
       {/* Revenue Trend */}
-      <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-xl p-6">
-        <h3 className="font-semibold mb-4">Revenue Trend</h3>
-        <ResponsiveContainer width="100%" height={260}>
+      <Card title="Revenue Trend">
+        <ChartBox>
           <LineChart data={data.revenueTrend}>
             <XAxis dataKey="month" stroke="#94a3b8" />
             <YAxis stroke="#94a3b8" />
-            <SafeTooltip />
+            <Tooltip content={<ChartTooltip />} />
             <Line
               type="monotone"
               dataKey="revenue"
@@ -40,24 +46,22 @@ export default function AnalyticsPanel({ data }: any) {
               dot={{ r: 4 }}
             />
           </LineChart>
-        </ResponsiveContainer>
-      </div>
+        </ChartBox>
+      </Card>
 
       {/* Category Distribution */}
-      <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-xl p-6">
-        <h3 className="font-semibold mb-4">Category Distribution</h3>
-
-        <div className="flex gap-8 items-center">
-          <ResponsiveContainer width={240} height={240}>
+      <Card title="Category Distribution">
+        <div className="flex flex-col sm:flex-row gap-6 items-center">
+          <ChartBox height={220} width={220}>
             <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={90}>
+              <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={85}>
                 {pieData.map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
                 ))}
               </Pie>
-              <SafeTooltip />
+              <Tooltip content={<ChartTooltip />} />
             </PieChart>
-          </ResponsiveContainer>
+          </ChartBox>
 
           <div className="space-y-2 text-sm">
             {pieData.map((item, i) => (
@@ -66,58 +70,81 @@ export default function AnalyticsPanel({ data }: any) {
                   className="w-3 h-3 rounded-full"
                   style={{ background: COLORS[i % COLORS.length] }}
                 />
-                <span className="text-slate-300">{String(item.name)}</span>
+                <span className="text-slate-300">{item.name}</span>
                 <span className="text-slate-400">({item.value})</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </Card>
 
-      {/* Stock by Category (Full Width) */}
-      <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-xl p-6">
-        <h3 className="font-semibold mb-4">Stock by Category</h3>
-
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={pieData}>
-            <XAxis dataKey="name" stroke="#b894b5ff" />
-            <YAxis stroke="#94a3b8" />
-
-            <SafeTooltip
-              contentStyle={{
-                backgroundColor: "#020617",
-                border: "1px solid #1e293b",
-                borderRadius: "8px",
-                color: "#e5e7eb",
-              }}
-              labelStyle={{ color: "#a7f3d0" }}
-            />
-
+      {/* Stock by Category */}
+      <Card title="Stock by Category" full>
+        <ChartBox>
+          <BarChart data={pieData} barCategoryGap="20%">
             <defs>
-              <linearGradient id="stockGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#34d399" stopOpacity={0.9} />
-                <stop offset="95%" stopColor="#34d399" stopOpacity={0.1} />
+              <linearGradient id="emeraldBar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
+                <stop offset="100%" stopColor="#34d399" stopOpacity={0.15} />
               </linearGradient>
             </defs>
 
-            <Bar dataKey="value" fill="url(#stockGradient)" radius={[6, 6, 0, 0]} />
+            <XAxis dataKey="name" stroke="#94a3b8" />
+            <YAxis stroke="#94a3b8" />
+            <Tooltip content={<ChartTooltip />} />
+            <Bar
+              dataKey="value"
+              fill="url(#emeraldBar)"
+              radius={[10, 10, 0, 0]}
+            />
           </BarChart>
-        </ResponsiveContainer>
-      </div>
+        </ChartBox>
+      </Card>
 
-      {/* Top Products (Full Width) */}
-      <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-xl p-6">
-        <h3 className="font-semibold mb-4">Top Products by Inventory Value</h3>
-        <ResponsiveContainer width="100%" height={260}>
+      {/* Top Products */}
+      <Card title="Top Products by Inventory Value" full>
+        <ChartBox>
           <BarChart data={data.topProducts} layout="vertical">
+            <defs>
+              <linearGradient id="blueBar" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#60a5fa" stopOpacity={1} />
+                <stop offset="100%" stopColor="#60a5fa" stopOpacity={0.25} />
+              </linearGradient>
+            </defs>
+
             <XAxis type="number" stroke="#94a3b8" />
             <YAxis dataKey="name" type="category" stroke="#94a3b8" />
-            <SafeTooltip />
-            <Bar dataKey="value" fill="#60a5fa" radius={[0, 6, 6, 0]} />
+            <Tooltip content={<ChartTooltip />} />
+            <Bar
+              dataKey="value"
+              fill="url(#blueBar)"
+              radius={[0, 10, 10, 0]}
+            />
           </BarChart>
-        </ResponsiveContainer>
-      </div>
+        </ChartBox>
+      </Card>
 
+    </div>
+  );
+}
+
+/* ---------- UI Helpers ---------- */
+
+function Card({ title, children, full }: any) {
+  return (
+    <div className={`bg-slate-900/50 backdrop-blur border border-slate-800 rounded-xl p-5 ${full ? "lg:col-span-2" : ""}`}>
+      <h3 className="font-semibold mb-4">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function ChartBox({ children, height = 260, width = "100%" }: any) {
+  return (
+    <div className="w-full" style={{ height }}>
+      <ResponsiveContainer width={width} height="100%">
+        {children}
+      </ResponsiveContainer>
     </div>
   );
 }

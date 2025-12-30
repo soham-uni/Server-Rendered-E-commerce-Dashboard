@@ -25,7 +25,6 @@ export default async function AdminsPage() {
             <tr>
               <th className="p-4 text-left">Name</th>
               <th className="p-4 text-left">Email</th>
-              <th className="p-4 text-left">Created</th>
             </tr>
           </thead>
 
@@ -34,9 +33,6 @@ export default async function AdminsPage() {
               <tr key={a._id} className="border-b border-slate-800 hover:bg-slate-900/40 transition">
                 <td className="p-4">{a.name}</td>
                 <td className="p-4 text-slate-400">{a.email}</td>
-                <td className="p-4 text-slate-500">
-                  {new Date(a.createdAt).toLocaleDateString()}
-                </td>
               </tr>
             ))}
           </tbody>
