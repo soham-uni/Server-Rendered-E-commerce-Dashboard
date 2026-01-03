@@ -1,13 +1,13 @@
 # 🛒 SSR E-Commerce Product Management Dashboard
 
-A full-stack **Server-Side Rendered (SSR)** admin dashboard for managing an e-commerce platform. This application provides secure authentication, product management, analytics, and a modern responsive UI—built with production-grade architecture.
+A full-stack **Server-Side Rendered (SSR)** admin dashboard for managing an e-commerce platform. This application provides secure authentication, product management, analytics, and a modern responsive UI, built with production-grade architecture.
 
 ---
 
 ## 🌐 Live Project & Submission Links
 
 * **🔗 Live Deployment:** https://e-commerce-dashboard-ruby.vercel.app
-* **🎥 Demo Video:** [PASTE_YOUR_VIDEO_LINK_HERE] (3–5 minute walkthrough)
+* **🎥 Demo Video:** ( )
 
 ### 🔐 Demo Admin Credentials
 *Use these credentials to access the dashboard during review:*
@@ -101,3 +101,16 @@ npm run dev
 http://localhost:3000
 ```
 
+---
+
+## 🧪 Architecture & Performance
+- App Router: Optimized for performance using the latest Next.js paradigms.
+
+- Server Components: Heavy logic remains on the server, significantly reducing the client-side bundle size.
+
+- Safe State: Client components are used selectively only where interactivity (like charts or forms) is required.
+
+- Data Integrity: Strict schema validation using Zod to prevent database corruption.
+---
+## 🧑‍💻 Author
+Soham Adak
