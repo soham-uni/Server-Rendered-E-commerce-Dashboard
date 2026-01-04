@@ -60,18 +60,40 @@ This project is a high-performance Admin Dashboard designed for e-commerce opera
 ## 🗂️ Project Structure
 
 ```text
-app/
-├── api/             # API Routes (Admin, Products, Upload, Analytics)
-├── dashboard/       # Main Dashboard UI
-│   ├── admins/      # Admin access control
-│   ├── products/    # Product CRUD ([id]/edit and /new)
-│   └── page.tsx     # Analytics Overview
-├── components/      # Reusable UI (Buttons, Search, Providers)
-├── lib/             # Core Logic (DB, Cloudinary, Auth Utils)
-├── models/          # MongoDB Schemas
-└── validators/      # Zod Schemas for data validation
+ECOMMERCE-ADMIN-DASHBOARD/
+├── app/
+│   ├── api/                
+│   │   ├── admin/          
+│   │   ├── analytics/      
+│   │   ├── auth/           
+│   │   ├── products/       
+│   │   └── upload/         
+│   ├── dashboard/          
+│   │   ├── admins/         
+│   │   ├── products/       
+│   │   │   ├── [id]/       
+│   │   │   └── new/        
+│   │   ├── DashboardCharts.tsx 
+│   │   ├── layout.tsx      
+│   │   └── page.tsx        
+│   ├── login/               
+│   ├── globals.css         
+│   ├── layout.tsx          
+│   └── page.tsx            
+├── components/             
+├── lib/                    
+│   ├── auth/               
+│   ├── cloudinary/         
+│   ├── constants/          
+│   ├── db/                 
+│   ├── utils/              
+│   └── validators/         
+├── models/                 
+│   ├── Admin.ts            
+│   └── Product.ts          
+├── public/                 
+└── .env.local              
 ```
-
 ## ⚙️ Steps to Run the Project Locally
 
 ### 1️⃣ Clone the Repository
