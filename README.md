@@ -7,7 +7,6 @@ A full-stack **Server-Side Rendered (SSR)** admin dashboard for managing an e-co
 ## 🌐 Live Project & Submission Links
 
 * **🔗 Live Deployment:** https://e-commerce-dashboard-ruby.vercel.app
-* **🎥 Demo Video:** ( )
 
 ### 🔐 Demo Admin Credentials
 *Use these credentials to access the dashboard during review:*
